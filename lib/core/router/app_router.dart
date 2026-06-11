@@ -7,6 +7,9 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/providers/auth_providers.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/signup_screen.dart';
+import '../../features/proof/presentation/screens/proof_capture_screen.dart';
+import '../../features/quest/domain/quest.dart';
+import '../../features/quest/presentation/screens/active_quest_screen.dart';
 import '../../features/room/presentation/screens/create_or_join_screen.dart';
 import '../../features/room/presentation/screens/join_room_screen.dart';
 import '../../features/room/presentation/screens/lobby_screen.dart';
@@ -19,6 +22,12 @@ abstract final class AppRoutes {
 
   /// Lobby (and later, game session) for a room: `/room/{roomId}`.
   static String room(String roomId) => '/room/$roomId';
+
+  /// Active quest screen: `/room/{roomId}/quest`.
+  static String quest(String roomId) => '/room/$roomId/quest';
+
+  /// Proof capture screen: `/room/{roomId}/proof-capture`.
+  static String proofCapture(String roomId) => '/room/$roomId/proof-capture';
 }
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -61,6 +70,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/room/:roomId',
         builder: (context, state) =>
             LobbyScreen(roomId: state.pathParameters['roomId']!),
+      ),
+      GoRoute(
+        path: '/room/:roomId/quest',
+        builder: (context, state) => ActiveQuestScreen(
+          roomId: state.pathParameters['roomId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/room/:roomId/proof-capture',
+        builder: (context, state) => ProofCaptureScreen(
+          roomId: state.pathParameters['roomId']!,
+          quest: state.extra! as QuestAssignment,
+        ),
       ),
     ],
   );

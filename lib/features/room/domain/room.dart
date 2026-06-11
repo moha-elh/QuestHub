@@ -56,6 +56,7 @@ abstract class RoomPlayer with _$RoomPlayer {
     String? avatarUrl,
     @Default(false) bool isReady,
     @Default(0) int score,
+    @Default(false) bool skipUsed,
   }) = _RoomPlayer;
 
   factory RoomPlayer.fromJson(Map<String, dynamic> json) =>

@@ -1,5 +1,5 @@
 /**
- * QuestHub Cloud Functions — lobby edge cases.
+ * QuestHub Cloud Functions — lobby edge cases & quest assignment.
  *
  * Not deployed yet: requires a Firebase project on the Blaze plan.
  * Deploy with: cd functions && npm install && npm run deploy
@@ -12,6 +12,8 @@ import { logger } from "firebase-functions/v2";
 
 initializeApp();
 const db = getFirestore();
+
+export { assignQuestsOnStart } from "./assign_quests";
 
 interface RoomPlayer {
   displayName: string;

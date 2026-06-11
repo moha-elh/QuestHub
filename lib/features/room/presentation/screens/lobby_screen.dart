@@ -56,14 +56,25 @@ class LobbyScreen extends ConsumerWidget {
     // Keep our presence heartbeat alive while this screen is mounted.
     ref.watch(lobbyHeartbeatProvider(roomId));
 
-    // Room deleted / not found while listening → back home with a notice.
+    // Navigate to quest on game start; back home on room deletion.
     ref.listen(roomProvider(roomId), (previous, next) {
-      if (next.hasError && previous?.hasError != true) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('The room was closed.')),
-        );
-        context.go('/home');
-      }
+      next.when(
+        data: (room) {
+          if (room.status == RoomStatus.inProgress &&
+              previous?.asData?.value.status != RoomStatus.inProgress) {
+            context.go('/room/$roomId/quest');
+          }
+        },
+        error: (_, __) {
+          if (previous?.hasError != true) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('The room was closed.')),
+            );
+            context.go('/home');
+          }
+        },
+        loading: () {},
+      );
     });
 
     final roomAsync = ref.watch(roomProvider(roomId));
