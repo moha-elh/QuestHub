@@ -1,0 +1,21 @@
+{
+  "name": "questhub-functions",
+  "description": "QuestHub Cloud Functions: lobby host reassignment and stale-player cleanup",
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "deploy": "firebase deploy --only functions",
+    "serve": "npm run build && firebase emulators:start --only functions"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0",
+    "firebase-functions": "^6.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  },
+  "private": true
+}

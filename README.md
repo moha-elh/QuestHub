@@ -7,7 +7,7 @@ Real-time competitive party game: join a room with friends or strangers, complet
 | Feature | Status |
 | --- | --- |
 | Auth (email + Google) | ✅ this repo |
-| Room system (6-digit codes, matchmaking) | planned |
+| Room system (6-digit codes, matchmaking, lobby) | ✅ this repo |
 | Quest engine (Easy → Legendary tiers) | planned |
 | Proof submission + voting | planned |
 | In-room chat | planned |
@@ -40,17 +40,13 @@ flutter pub get
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-### Connect Firebase (required for live auth)
+### Connect Firebase (required for live auth & rooms)
 
-`lib/firebase_options.dart` is a placeholder. The app boots without it, but all auth actions show a "Firebase is not configured" message until you:
+`lib/firebase_options.dart` is a placeholder. The app boots without it, but auth and rooms are disabled until Firebase is wired up — full walkthrough in **[FIREBASE_SETUP.md](FIREBASE_SETUP.md)**.
 
-1. Create a Firebase project at <https://console.firebase.google.com> and enable **Authentication → Email/Password + Google** and **Cloud Firestore**.
-2. ```sh
-   dart pub global activate flutterfire_cli
-   flutterfire configure
-   ```
-   This rewrites `firebase_options.dart` and adds the platform config files.
-3. For Google sign-in on Android, add your debug SHA-1 to the Firebase project settings (`cd android && ./gradlew signingReport`), then re-download `google-services.json` (or re-run `flutterfire configure`).
+### Cloud Functions
+
+`functions/` holds the lobby edge-case functions (host reassignment when the host disconnects, stale-player eviction driven by a 10s client heartbeat). Deploy with `npm install && npm run deploy` from `functions/` once the project is on the Blaze plan — see FIREBASE_SETUP.md §6.
 
 ## Run & test
 

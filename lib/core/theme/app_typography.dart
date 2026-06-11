@@ -26,6 +26,17 @@ abstract final class AppTypography {
     fontFeatures: _tabularFigures,
   );
 
+  /// Monospace numerals for room codes and timers.
+  static const TextStyle code = TextStyle(
+    fontSize: 36,
+    fontWeight: FontWeight.w700,
+    height: 1.0,
+    letterSpacing: 6,
+    color: AppColors.textPrimary,
+    fontFamily: 'monospace',
+    fontFeatures: _tabularFigures,
+  );
+
   // Headings.
   static const TextStyle h1 = TextStyle(
     fontSize: 28,

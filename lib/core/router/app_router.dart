@@ -7,12 +7,18 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/providers/auth_providers.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/signup_screen.dart';
-import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/room/presentation/screens/create_or_join_screen.dart';
+import '../../features/room/presentation/screens/join_room_screen.dart';
+import '../../features/room/presentation/screens/lobby_screen.dart';
 
 abstract final class AppRoutes {
   static const login = '/login';
   static const signup = '/signup';
   static const home = '/home';
+  static const join = '/join';
+
+  /// Lobby (and later, game session) for a room: `/room/{roomId}`.
+  static String room(String roomId) => '/room/$roomId';
 }
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -45,7 +51,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.home,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const CreateOrJoinScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.join,
+        builder: (context, state) => const JoinRoomScreen(),
+      ),
+      GoRoute(
+        path: '/room/:roomId',
+        builder: (context, state) =>
+            LobbyScreen(roomId: state.pathParameters['roomId']!),
       ),
     ],
   );

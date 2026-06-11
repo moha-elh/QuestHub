@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/widgets/qh_error_banner.dart';
-import '../../domain/auth_repository.dart';
-import '../providers/auth_controller.dart';
+import '../../domain/room_repository.dart';
+import '../providers/room_controller.dart';
 
-/// Surfaces the latest auth error, if any.
-class AuthErrorBanner extends ConsumerWidget {
-  const AuthErrorBanner({super.key});
+/// Surfaces the latest room action error, if any.
+class RoomErrorBanner extends ConsumerWidget {
+  const RoomErrorBanner({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final error = ref.watch(authControllerProvider).error;
+    final error = ref.watch(roomControllerProvider).error;
 
     final message = switch (error) {
       null => null,
-      final AuthException e => e.message,
+      final RoomException e => e.message,
       _ => 'Something went wrong. Please try again.',
     };
 
