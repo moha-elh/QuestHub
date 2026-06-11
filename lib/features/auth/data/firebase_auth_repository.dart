@@ -106,6 +106,26 @@ class FirebaseAuthRepository implements AuthRepository {
     await _auth.signOut();
   }
 
+  @override
+  Future<void> updateUserCity({
+    required String uid,
+    required String city,
+    required String cityCode,
+  }) async {
+    await _firestore.collection(_usersCollection).doc(uid).update({
+      'city': city,
+      'cityCode': cityCode,
+    });
+  }
+
+  @override
+  Future<AppUser?> fetchUserProfile(String uid) async {
+    final doc =
+        await _firestore.collection(_usersCollection).doc(uid).get();
+    if (!doc.exists) return null;
+    return AppUser.fromJson({...doc.data()!, 'uid': doc.id});
+  }
+
   Future<void> _createUserDoc({
     required String uid,
     required String username,

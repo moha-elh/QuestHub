@@ -12,10 +12,12 @@ abstract class AppUser with _$AppUser {
     required String email,
     required DateTime createdAt,
     String? avatarUrl,
-    // TODO(profile-session): city selection happens in the profile feature;
-    // it powers the local leaderboard.
     String? city,
+    String? cityCode,
     @Default(0) int totalPoints,
+    @Default(0) int weeklyPoints,
+    @Default(0) int gamesPlayed,
+    @Default(0) int questsCompleted,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>

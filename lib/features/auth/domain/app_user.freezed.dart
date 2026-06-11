@@ -15,9 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppUser {
 
- String get uid; String get username; String get email; DateTime get createdAt; String? get avatarUrl;// TODO(profile-session): city selection happens in the profile feature;
-// it powers the local leaderboard.
- String? get city; int get totalPoints;
+ String get uid; String get username; String get email; DateTime get createdAt; String? get avatarUrl; String? get city; String? get cityCode; int get totalPoints; int get weeklyPoints; int get gamesPlayed; int get questsCompleted;
 /// Create a copy of AppUser
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,16 +28,16 @@ $AppUserCopyWith<AppUser> get copyWith => _$AppUserCopyWithImpl<AppUser>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppUser&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.username, username) || other.username == username)&&(identical(other.email, email) || other.email == email)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.city, city) || other.city == city)&&(identical(other.totalPoints, totalPoints) || other.totalPoints == totalPoints));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppUser&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.username, username) || other.username == username)&&(identical(other.email, email) || other.email == email)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.city, city) || other.city == city)&&(identical(other.cityCode, cityCode) || other.cityCode == cityCode)&&(identical(other.totalPoints, totalPoints) || other.totalPoints == totalPoints)&&(identical(other.weeklyPoints, weeklyPoints) || other.weeklyPoints == weeklyPoints)&&(identical(other.gamesPlayed, gamesPlayed) || other.gamesPlayed == gamesPlayed)&&(identical(other.questsCompleted, questsCompleted) || other.questsCompleted == questsCompleted));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uid,username,email,createdAt,avatarUrl,city,totalPoints);
+int get hashCode => Object.hash(runtimeType,uid,username,email,createdAt,avatarUrl,city,cityCode,totalPoints,weeklyPoints,gamesPlayed,questsCompleted);
 
 @override
 String toString() {
-  return 'AppUser(uid: $uid, username: $username, email: $email, createdAt: $createdAt, avatarUrl: $avatarUrl, city: $city, totalPoints: $totalPoints)';
+  return 'AppUser(uid: $uid, username: $username, email: $email, createdAt: $createdAt, avatarUrl: $avatarUrl, city: $city, cityCode: $cityCode, totalPoints: $totalPoints, weeklyPoints: $weeklyPoints, gamesPlayed: $gamesPlayed, questsCompleted: $questsCompleted)';
 }
 
 
@@ -50,7 +48,7 @@ abstract mixin class $AppUserCopyWith<$Res>  {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) _then) = _$AppUserCopyWithImpl;
 @useResult
 $Res call({
- String uid, String username, String email, DateTime createdAt, String? avatarUrl, String? city, int totalPoints
+ String uid, String username, String email, DateTime createdAt, String? avatarUrl, String? city, String? cityCode, int totalPoints, int weeklyPoints, int gamesPlayed, int questsCompleted
 });
 
 
@@ -67,7 +65,7 @@ class _$AppUserCopyWithImpl<$Res>
 
 /// Create a copy of AppUser
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uid = null,Object? username = null,Object? email = null,Object? createdAt = null,Object? avatarUrl = freezed,Object? city = freezed,Object? totalPoints = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uid = null,Object? username = null,Object? email = null,Object? createdAt = null,Object? avatarUrl = freezed,Object? city = freezed,Object? cityCode = freezed,Object? totalPoints = null,Object? weeklyPoints = null,Object? gamesPlayed = null,Object? questsCompleted = null,}) {
   return _then(_self.copyWith(
 uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as String,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
@@ -75,7 +73,11 @@ as String,email: null == email ? _self.email : email // ignore: cast_nullable_to
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
 as String?,city: freezed == city ? _self.city : city // ignore: cast_nullable_to_non_nullable
+as String?,cityCode: freezed == cityCode ? _self.cityCode : cityCode // ignore: cast_nullable_to_non_nullable
 as String?,totalPoints: null == totalPoints ? _self.totalPoints : totalPoints // ignore: cast_nullable_to_non_nullable
+as int,weeklyPoints: null == weeklyPoints ? _self.weeklyPoints : weeklyPoints // ignore: cast_nullable_to_non_nullable
+as int,gamesPlayed: null == gamesPlayed ? _self.gamesPlayed : gamesPlayed // ignore: cast_nullable_to_non_nullable
+as int,questsCompleted: null == questsCompleted ? _self.questsCompleted : questsCompleted // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -161,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uid,  String username,  String email,  DateTime createdAt,  String? avatarUrl,  String? city,  int totalPoints)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uid,  String username,  String email,  DateTime createdAt,  String? avatarUrl,  String? city,  String? cityCode,  int totalPoints,  int weeklyPoints,  int gamesPlayed,  int questsCompleted)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppUser() when $default != null:
-return $default(_that.uid,_that.username,_that.email,_that.createdAt,_that.avatarUrl,_that.city,_that.totalPoints);case _:
+return $default(_that.uid,_that.username,_that.email,_that.createdAt,_that.avatarUrl,_that.city,_that.cityCode,_that.totalPoints,_that.weeklyPoints,_that.gamesPlayed,_that.questsCompleted);case _:
   return orElse();
 
 }
@@ -182,10 +184,10 @@ return $default(_that.uid,_that.username,_that.email,_that.createdAt,_that.avata
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uid,  String username,  String email,  DateTime createdAt,  String? avatarUrl,  String? city,  int totalPoints)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uid,  String username,  String email,  DateTime createdAt,  String? avatarUrl,  String? city,  String? cityCode,  int totalPoints,  int weeklyPoints,  int gamesPlayed,  int questsCompleted)  $default,) {final _that = this;
 switch (_that) {
 case _AppUser():
-return $default(_that.uid,_that.username,_that.email,_that.createdAt,_that.avatarUrl,_that.city,_that.totalPoints);case _:
+return $default(_that.uid,_that.username,_that.email,_that.createdAt,_that.avatarUrl,_that.city,_that.cityCode,_that.totalPoints,_that.weeklyPoints,_that.gamesPlayed,_that.questsCompleted);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +204,10 @@ return $default(_that.uid,_that.username,_that.email,_that.createdAt,_that.avata
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uid,  String username,  String email,  DateTime createdAt,  String? avatarUrl,  String? city,  int totalPoints)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uid,  String username,  String email,  DateTime createdAt,  String? avatarUrl,  String? city,  String? cityCode,  int totalPoints,  int weeklyPoints,  int gamesPlayed,  int questsCompleted)?  $default,) {final _that = this;
 switch (_that) {
 case _AppUser() when $default != null:
-return $default(_that.uid,_that.username,_that.email,_that.createdAt,_that.avatarUrl,_that.city,_that.totalPoints);case _:
+return $default(_that.uid,_that.username,_that.email,_that.createdAt,_that.avatarUrl,_that.city,_that.cityCode,_that.totalPoints,_that.weeklyPoints,_that.gamesPlayed,_that.questsCompleted);case _:
   return null;
 
 }
@@ -217,7 +219,7 @@ return $default(_that.uid,_that.username,_that.email,_that.createdAt,_that.avata
 @JsonSerializable()
 
 class _AppUser implements AppUser {
-  const _AppUser({required this.uid, required this.username, required this.email, required this.createdAt, this.avatarUrl, this.city, this.totalPoints = 0});
+  const _AppUser({required this.uid, required this.username, required this.email, required this.createdAt, this.avatarUrl, this.city, this.cityCode, this.totalPoints = 0, this.weeklyPoints = 0, this.gamesPlayed = 0, this.questsCompleted = 0});
   factory _AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
 
 @override final  String uid;
@@ -225,10 +227,12 @@ class _AppUser implements AppUser {
 @override final  String email;
 @override final  DateTime createdAt;
 @override final  String? avatarUrl;
-// TODO(profile-session): city selection happens in the profile feature;
-// it powers the local leaderboard.
 @override final  String? city;
+@override final  String? cityCode;
 @override@JsonKey() final  int totalPoints;
+@override@JsonKey() final  int weeklyPoints;
+@override@JsonKey() final  int gamesPlayed;
+@override@JsonKey() final  int questsCompleted;
 
 /// Create a copy of AppUser
 /// with the given fields replaced by the non-null parameter values.
@@ -243,16 +247,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppUser&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.username, username) || other.username == username)&&(identical(other.email, email) || other.email == email)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.city, city) || other.city == city)&&(identical(other.totalPoints, totalPoints) || other.totalPoints == totalPoints));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppUser&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.username, username) || other.username == username)&&(identical(other.email, email) || other.email == email)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.city, city) || other.city == city)&&(identical(other.cityCode, cityCode) || other.cityCode == cityCode)&&(identical(other.totalPoints, totalPoints) || other.totalPoints == totalPoints)&&(identical(other.weeklyPoints, weeklyPoints) || other.weeklyPoints == weeklyPoints)&&(identical(other.gamesPlayed, gamesPlayed) || other.gamesPlayed == gamesPlayed)&&(identical(other.questsCompleted, questsCompleted) || other.questsCompleted == questsCompleted));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uid,username,email,createdAt,avatarUrl,city,totalPoints);
+int get hashCode => Object.hash(runtimeType,uid,username,email,createdAt,avatarUrl,city,cityCode,totalPoints,weeklyPoints,gamesPlayed,questsCompleted);
 
 @override
 String toString() {
-  return 'AppUser(uid: $uid, username: $username, email: $email, createdAt: $createdAt, avatarUrl: $avatarUrl, city: $city, totalPoints: $totalPoints)';
+  return 'AppUser(uid: $uid, username: $username, email: $email, createdAt: $createdAt, avatarUrl: $avatarUrl, city: $city, cityCode: $cityCode, totalPoints: $totalPoints, weeklyPoints: $weeklyPoints, gamesPlayed: $gamesPlayed, questsCompleted: $questsCompleted)';
 }
 
 
@@ -263,7 +267,7 @@ abstract mixin class _$AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
   factory _$AppUserCopyWith(_AppUser value, $Res Function(_AppUser) _then) = __$AppUserCopyWithImpl;
 @override @useResult
 $Res call({
- String uid, String username, String email, DateTime createdAt, String? avatarUrl, String? city, int totalPoints
+ String uid, String username, String email, DateTime createdAt, String? avatarUrl, String? city, String? cityCode, int totalPoints, int weeklyPoints, int gamesPlayed, int questsCompleted
 });
 
 
@@ -280,7 +284,7 @@ class __$AppUserCopyWithImpl<$Res>
 
 /// Create a copy of AppUser
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uid = null,Object? username = null,Object? email = null,Object? createdAt = null,Object? avatarUrl = freezed,Object? city = freezed,Object? totalPoints = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uid = null,Object? username = null,Object? email = null,Object? createdAt = null,Object? avatarUrl = freezed,Object? city = freezed,Object? cityCode = freezed,Object? totalPoints = null,Object? weeklyPoints = null,Object? gamesPlayed = null,Object? questsCompleted = null,}) {
   return _then(_AppUser(
 uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as String,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
@@ -288,7 +292,11 @@ as String,email: null == email ? _self.email : email // ignore: cast_nullable_to
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
 as String?,city: freezed == city ? _self.city : city // ignore: cast_nullable_to_non_nullable
+as String?,cityCode: freezed == cityCode ? _self.cityCode : cityCode // ignore: cast_nullable_to_non_nullable
 as String?,totalPoints: null == totalPoints ? _self.totalPoints : totalPoints // ignore: cast_nullable_to_non_nullable
+as int,weeklyPoints: null == weeklyPoints ? _self.weeklyPoints : weeklyPoints // ignore: cast_nullable_to_non_nullable
+as int,gamesPlayed: null == gamesPlayed ? _self.gamesPlayed : gamesPlayed // ignore: cast_nullable_to_non_nullable
+as int,questsCompleted: null == questsCompleted ? _self.questsCompleted : questsCompleted // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }

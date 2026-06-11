@@ -212,6 +212,7 @@ class FirebaseRoomRepository implements RoomRepository {
   @override
   Future<void> endGame(String roomId) async {
     final roomRef = _rooms.doc(roomId);
+    Map<String, RoomPlayer>? players;
     await _firestore.runTransaction((tx) async {
       final doc = await tx.get(roomRef);
       if (!doc.exists) throw const RoomNotFoundException();
@@ -220,11 +221,29 @@ class FirebaseRoomRepository implements RoomRepository {
       if (room.status != RoomStatus.inProgress) {
         throw const RoomUnknownException();
       }
+      players = room.players;
       tx.update(roomRef, {
         'status': 'finished',
         'endedAt': DateTime.now().toUtc().toIso8601String(),
       });
     });
+
+    // Aggregate room scores into user profiles.
+    if (players != null) {
+      final batch = _firestore.batch();
+      for (final entry in players!.entries) {
+        final userId = entry.key;
+        final player = entry.value;
+        final userRef = _firestore.collection('users').doc(userId);
+        batch.update(userRef, {
+          'totalPoints': FieldValue.increment(player.score),
+          'weeklyPoints': FieldValue.increment(player.score),
+          'gamesPlayed': FieldValue.increment(1),
+          'questsCompleted': FieldValue.increment(player.questsCompleted),
+        });
+      }
+      await batch.commit();
+    }
   }
 
   @override

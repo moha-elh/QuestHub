@@ -14,6 +14,7 @@ import '../../features/quest/presentation/screens/active_quest_screen.dart';
 import '../../features/room/presentation/screens/create_or_join_screen.dart';
 import '../../features/room/presentation/screens/join_room_screen.dart';
 import '../../features/room/presentation/screens/lobby_screen.dart';
+import '../../features/leaderboard/presentation/screens/leaderboard_screen.dart';
 import '../../features/scoreboard/presentation/screens/post_game_screen.dart';
 
 abstract final class AppRoutes {
@@ -21,6 +22,7 @@ abstract final class AppRoutes {
   static const signup = '/signup';
   static const home = '/home';
   static const join = '/join';
+  static const leaderboard = '/leaderboard';
 
   /// Lobby (and later, game session) for a room: `/room/{roomId}`.
   static String room(String roomId) => '/room/$roomId';
@@ -70,6 +72,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.home,
         builder: (context, state) => const CreateOrJoinScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.leaderboard,
+        builder: (context, state) => const LeaderboardScreen(),
       ),
       GoRoute(
         path: AppRoutes.join,

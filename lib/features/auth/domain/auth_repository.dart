@@ -1,3 +1,5 @@
+import 'app_user.dart';
+
 /// Auth boundary for the app. Implementations live in `data/`.
 ///
 /// The domain layer deliberately avoids Firebase types: auth state is exposed
@@ -28,6 +30,16 @@ abstract interface class AuthRepository {
   Future<void> signInWithGoogle();
 
   Future<void> signOut();
+
+  /// Writes the user's chosen city to their `users/{uid}` profile doc.
+  Future<void> updateUserCity({
+    required String uid,
+    required String city,
+    required String cityCode,
+  });
+
+  /// Reads the user's profile doc from Firestore.
+  Future<AppUser?> fetchUserProfile(String uid);
 }
 
 /// User-facing auth failure. [message] is safe to render directly.

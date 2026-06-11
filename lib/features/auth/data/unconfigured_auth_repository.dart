@@ -1,3 +1,4 @@
+import '../domain/app_user.dart';
 import '../domain/auth_repository.dart';
 
 /// Stand-in used when Firebase fails to initialize (placeholder
@@ -36,4 +37,14 @@ class UnconfiguredAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async {}
+
+  @override
+  Future<void> updateUserCity({
+    required String uid,
+    required String city,
+    required String cityCode,
+  }) async {}
+
+  @override
+  Future<AppUser?> fetchUserProfile(String uid) async => null;
 }
