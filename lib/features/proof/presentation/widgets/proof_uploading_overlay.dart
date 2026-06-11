@@ -22,7 +22,7 @@ class ProofUploadingOverlay extends ConsumerStatefulWidget {
   final String roomId;
   final QuestAssignment quest;
   final File imageFile;
-  final VoidCallback onComplete;
+  final void Function(String proofId) onComplete;
 
   @override
   ConsumerState<ProofUploadingOverlay> createState() =>
@@ -47,7 +47,7 @@ class _ProofUploadingOverlayState extends ConsumerState<ProofUploadingOverlay> {
     });
 
     try {
-      await ref.read(proofRepositoryProvider).submitProof(
+      final proofId = await ref.read(proofRepositoryProvider).submitProof(
         roomId: widget.roomId,
         questId: widget.quest.questId,
         questTitle: widget.quest.title,
@@ -62,7 +62,7 @@ class _ProofUploadingOverlayState extends ConsumerState<ProofUploadingOverlay> {
       });
 
       Future.delayed(const Duration(seconds: 1), () {
-        if (mounted) widget.onComplete();
+        if (mounted) widget.onComplete(proofId);
       });
     } catch (e) {
       if (!mounted) return;

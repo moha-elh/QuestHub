@@ -209,6 +209,53 @@ class FirebaseRoomRepository implements RoomRepository {
     });
   }
 
+  @override
+  Future<void> endGame(String roomId) async {
+    final roomRef = _rooms.doc(roomId);
+    await _firestore.runTransaction((tx) async {
+      final doc = await tx.get(roomRef);
+      if (!doc.exists) throw const RoomNotFoundException();
+      final room = _fromDoc(doc);
+      if (room.hostId != _user.uid) throw const RoomUnknownException();
+      if (room.status != RoomStatus.inProgress) {
+        throw const RoomUnknownException();
+      }
+      tx.update(roomRef, {
+        'status': 'finished',
+        'endedAt': DateTime.now().toUtc().toIso8601String(),
+      });
+    });
+  }
+
+  @override
+  Future<void> resetGame(String roomId) async {
+    final roomRef = _rooms.doc(roomId);
+    await _firestore.runTransaction((tx) async {
+      final doc = await tx.get(roomRef);
+      if (!doc.exists) throw const RoomNotFoundException();
+      final room = _fromDoc(doc);
+      if (room.hostId != _user.uid) throw const RoomUnknownException();
+      if (room.status != RoomStatus.finished) {
+        throw const RoomUnknownException();
+      }
+
+      final resetPlayers = room.players.map((key, player) =>
+          MapEntry(key, player.copyWith(score: 0, skipUsed: false, questsCompleted: 0)));
+
+      tx.update(roomRef, {
+        'status': 'waiting',
+        'endedAt': FieldValue.delete(),
+        'startedAt': FieldValue.delete(),
+        for (final entry in resetPlayers.entries)
+          'players.${entry.key}.score': 0,
+        for (final entry in resetPlayers.entries)
+          'players.${entry.key}.skipUsed': false,
+        for (final entry in resetPlayers.entries)
+          'players.${entry.key}.questsCompleted': 0,
+      });
+    });
+  }
+
   Room _fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) =>
       Room.fromJson({...doc.data()!, 'id': doc.id});
 }

@@ -32,6 +32,12 @@ abstract interface class RoomRepository {
   /// Bumps the caller's `lastSeenAt` so the stale-player cleanup function
   /// knows they're still connected.
   Future<void> heartbeat(String roomId);
+
+  /// Host only; sets room status to `finished`.
+  Future<void> endGame(String roomId);
+
+  /// Host only; resets room to `waiting`, clears per-player scores/stats.
+  Future<void> resetGame(String roomId);
 }
 
 /// User-facing room failure. [message] is safe to render directly.

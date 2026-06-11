@@ -25,6 +25,9 @@ _Proof _$ProofFromJson(Map<String, dynamic> json) => _Proof(
       $enumDecodeNullable(_$ProofStatusEnumMap, json['status']) ??
       ProofStatus.pending,
   submittedAt: DateTime.parse(json['submittedAt'] as String),
+  votingDeadline: json['votingDeadline'] == null
+      ? null
+      : DateTime.parse(json['votingDeadline'] as String),
   resolvedAt: json['resolvedAt'] == null
       ? null
       : DateTime.parse(json['resolvedAt'] as String),
@@ -42,6 +45,7 @@ Map<String, dynamic> _$ProofToJson(_Proof instance) => <String, dynamic>{
   'votes': instance.votes,
   'status': _$ProofStatusEnumMap[instance.status]!,
   'submittedAt': instance.submittedAt.toIso8601String(),
+  'votingDeadline': instance.votingDeadline?.toIso8601String(),
   'resolvedAt': instance.resolvedAt?.toIso8601String(),
 };
 

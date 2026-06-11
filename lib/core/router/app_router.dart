@@ -8,11 +8,13 @@ import '../../features/auth/presentation/providers/auth_providers.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/signup_screen.dart';
 import '../../features/proof/presentation/screens/proof_capture_screen.dart';
+import '../../features/proof/presentation/screens/voting_screen.dart';
 import '../../features/quest/domain/quest.dart';
 import '../../features/quest/presentation/screens/active_quest_screen.dart';
 import '../../features/room/presentation/screens/create_or_join_screen.dart';
 import '../../features/room/presentation/screens/join_room_screen.dart';
 import '../../features/room/presentation/screens/lobby_screen.dart';
+import '../../features/scoreboard/presentation/screens/post_game_screen.dart';
 
 abstract final class AppRoutes {
   static const login = '/login';
@@ -28,6 +30,13 @@ abstract final class AppRoutes {
 
   /// Proof capture screen: `/room/{roomId}/proof-capture`.
   static String proofCapture(String roomId) => '/room/$roomId/proof-capture';
+
+  /// Voting screen: `/room/{roomId}/vote/{proofId}`.
+  static String vote(String roomId, String proofId) =>
+      '/room/$roomId/vote/$proofId';
+
+  /// Post-game results screen: `/room/{roomId}/results`.
+  static String results(String roomId) => '/room/$roomId/results';
 }
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -82,6 +91,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => ProofCaptureScreen(
           roomId: state.pathParameters['roomId']!,
           quest: state.extra! as QuestAssignment,
+        ),
+      ),
+      GoRoute(
+        path: '/room/:roomId/vote/:proofId',
+        builder: (context, state) => VotingScreen(
+          roomId: state.pathParameters['roomId']!,
+          proofId: state.pathParameters['proofId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/room/:roomId/results',
+        builder: (context, state) => PostGameScreen(
+          roomId: state.pathParameters['roomId']!,
         ),
       ),
     ],

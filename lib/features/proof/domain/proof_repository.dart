@@ -12,4 +12,14 @@ abstract interface class ProofRepository {
   });
 
   Stream<Proof?> listenToActiveProof(String roomId);
+
+  Stream<Proof> listenToProof(String roomId, String proofId);
+
+  Stream<List<Proof>> listenToResolvedProofs(String roomId);
+
+  Future<void> castVote({
+    required String roomId,
+    required String proofId,
+    required String vote,
+  });
 }

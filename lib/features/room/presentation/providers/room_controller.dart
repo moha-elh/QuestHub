@@ -36,6 +36,12 @@ class RoomController extends AsyncNotifier<void> {
   Future<void> startGame(String roomId) =>
       _run(() => _repository.startGame(roomId));
 
+  Future<void> endGame(String roomId) =>
+      _run(() => _repository.endGame(roomId));
+
+  Future<void> resetGame(String roomId) =>
+      _run(() => _repository.resetGame(roomId));
+
   Future<void> _run(Future<void> Function() action) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(action);

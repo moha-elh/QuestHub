@@ -15,14 +15,36 @@ service cloud.firestore {
       allow delete: if request.auth != null
         && request.auth.uid in resource.data.players;
 
-      // Proofs subcollection: signed-in users can create;
-      // only the submitter can update; anyone signed-in can read.
+      // Proofs subcollection: signed-in users can read & create;
+      // only non-submitters can update (to cast votes);
+      // the submitter's own fields are protected from modification.
       match /proofs/{proofId} {
         allow read: if request.auth != null;
         allow create: if request.auth != null
           && request.auth.uid == request.resource.data.submitterId;
         allow update: if request.auth != null
-          && request.auth.uid == resource.data.submitterId;
+          && request.auth.uid != resource.data.submitterId
+          && request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.players.keys();
+        allow delete: if false;
+      }
+
+      // Messages subcollection: signed-in room players can read & create.
+      match /messages/{messageId} {
+        allow read: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.players.keys();
+        allow create: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.players.keys();
+        allow update: if request.auth != null;
+        allow delete: if false;
+      }
+
+      // Typing indicator subcollection: signed-in room players can read & write.
+      match /typing/{userId} {
+        allow read: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.players.keys();
+        allow write: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.players.keys()
+          && request.auth.uid == userId;
         allow delete: if false;
       }
     }

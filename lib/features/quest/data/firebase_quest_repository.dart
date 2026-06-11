@@ -35,6 +35,19 @@ class FirebaseQuestRepository implements QuestRepository {
   }
 
   @override
+  Stream<Map<String, QuestAssignment>> listenToAllQuests(String roomId) {
+    return _firestore
+        .collection('rooms')
+        .doc(roomId)
+        .collection('quests')
+        .snapshots()
+        .map((snap) => {
+              for (final doc in snap.docs)
+                doc.id: QuestAssignment.fromJson(doc.data()),
+            });
+  }
+
+  @override
   Future<void> markQuestComplete(String roomId, String userId) async {
     final uid = _user.uid;
     final docRef = _questDoc(roomId, userId);
@@ -49,6 +62,7 @@ class FirebaseQuestRepository implements QuestRepository {
       });
       tx.update(docRef.parent.parent!, {
         'players.$uid.score': FieldValue.increment(data['points'] as int),
+        'players.$uid.questsCompleted': FieldValue.increment(1),
       });
     });
   }

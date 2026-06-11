@@ -57,6 +57,7 @@ abstract class RoomPlayer with _$RoomPlayer {
     @Default(false) bool isReady,
     @Default(0) int score,
     @Default(false) bool skipUsed,
+    @Default(0) int questsCompleted,
   }) = _RoomPlayer;
 
   factory RoomPlayer.fromJson(Map<String, dynamic> json) =>

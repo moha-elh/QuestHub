@@ -52,6 +52,7 @@ class FirebaseProofRepository implements ProofRepository {
     final imageUrl = await snapshot.ref.getDownloadURL();
 
     final now = DateTime.now().toUtc();
+    final deadline = now.add(const Duration(seconds: 30));
     await proofRef.set({
       'submitterId': user.uid,
       'submitterName': user.displayName ?? user.email?.split('@').first ?? 'player',
@@ -64,6 +65,7 @@ class FirebaseProofRepository implements ProofRepository {
       'votes': <String, String>{},
       'status': 'pending',
       'submittedAt': now.toIso8601String(),
+      'votingDeadline': deadline.toIso8601String(),
     });
 
     return proofId;
@@ -80,6 +82,36 @@ class FirebaseProofRepository implements ProofRepository {
       if (snap.docs.isEmpty) return null;
       final doc = snap.docs.first;
       return Proof.fromJson({...doc.data(), 'id': doc.id});
+    });
+  }
+
+  @override
+  Stream<Proof> listenToProof(String roomId, String proofId) {
+    return _proofsCol(roomId)
+        .doc(proofId)
+        .snapshots()
+        .map((doc) => Proof.fromJson({...doc.data()!, 'id': doc.id}));
+  }
+
+  @override
+  Stream<List<Proof>> listenToResolvedProofs(String roomId) {
+    return _proofsCol(roomId)
+        .where('status', whereIn: ['approved', 'rejected'])
+        .snapshots()
+        .map((snap) => snap.docs
+            .map((doc) => Proof.fromJson({...doc.data(), 'id': doc.id}))
+            .toList());
+  }
+
+  @override
+  Future<void> castVote({
+    required String roomId,
+    required String proofId,
+    required String vote,
+  }) async {
+    final uid = _user.uid;
+    await _proofsCol(roomId).doc(proofId).update({
+      'votes.$uid': vote,
     });
   }
 }

@@ -162,8 +162,8 @@ class _ProofCaptureScreenState extends ConsumerState<ProofCaptureScreen>
         roomId: widget.roomId,
         quest: widget.quest,
         imageFile: File(image.path),
-        onComplete: () {
-          if (mounted) context.go('/room/${widget.roomId}');
+        onComplete: (proofId) {
+          if (mounted) context.go('/room/${widget.roomId}/vote/$proofId');
         },
       ),
     );

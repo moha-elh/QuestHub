@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Proof {
 
-@JsonKey(includeToJson: false) String get id; String get submitterId; String get submitterName; String? get submitterAvatarUrl; String get questId; String get questTitle; int get questPoints; String get imageUrl; String get thumbnailUrl; Map<String, String> get votes; ProofStatus get status; DateTime get submittedAt; DateTime? get resolvedAt;
+@JsonKey(includeToJson: false) String get id; String get submitterId; String get submitterName; String? get submitterAvatarUrl; String get questId; String get questTitle; int get questPoints; String get imageUrl; String get thumbnailUrl; Map<String, String> get votes; ProofStatus get status; DateTime get submittedAt; DateTime? get votingDeadline; DateTime? get resolvedAt;
 /// Create a copy of Proof
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ProofCopyWith<Proof> get copyWith => _$ProofCopyWithImpl<Proof>(this as Proof, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Proof&&(identical(other.id, id) || other.id == id)&&(identical(other.submitterId, submitterId) || other.submitterId == submitterId)&&(identical(other.submitterName, submitterName) || other.submitterName == submitterName)&&(identical(other.submitterAvatarUrl, submitterAvatarUrl) || other.submitterAvatarUrl == submitterAvatarUrl)&&(identical(other.questId, questId) || other.questId == questId)&&(identical(other.questTitle, questTitle) || other.questTitle == questTitle)&&(identical(other.questPoints, questPoints) || other.questPoints == questPoints)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&const DeepCollectionEquality().equals(other.votes, votes)&&(identical(other.status, status) || other.status == status)&&(identical(other.submittedAt, submittedAt) || other.submittedAt == submittedAt)&&(identical(other.resolvedAt, resolvedAt) || other.resolvedAt == resolvedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Proof&&(identical(other.id, id) || other.id == id)&&(identical(other.submitterId, submitterId) || other.submitterId == submitterId)&&(identical(other.submitterName, submitterName) || other.submitterName == submitterName)&&(identical(other.submitterAvatarUrl, submitterAvatarUrl) || other.submitterAvatarUrl == submitterAvatarUrl)&&(identical(other.questId, questId) || other.questId == questId)&&(identical(other.questTitle, questTitle) || other.questTitle == questTitle)&&(identical(other.questPoints, questPoints) || other.questPoints == questPoints)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&const DeepCollectionEquality().equals(other.votes, votes)&&(identical(other.status, status) || other.status == status)&&(identical(other.submittedAt, submittedAt) || other.submittedAt == submittedAt)&&(identical(other.votingDeadline, votingDeadline) || other.votingDeadline == votingDeadline)&&(identical(other.resolvedAt, resolvedAt) || other.resolvedAt == resolvedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,submitterId,submitterName,submitterAvatarUrl,questId,questTitle,questPoints,imageUrl,thumbnailUrl,const DeepCollectionEquality().hash(votes),status,submittedAt,resolvedAt);
+int get hashCode => Object.hash(runtimeType,id,submitterId,submitterName,submitterAvatarUrl,questId,questTitle,questPoints,imageUrl,thumbnailUrl,const DeepCollectionEquality().hash(votes),status,submittedAt,votingDeadline,resolvedAt);
 
 @override
 String toString() {
-  return 'Proof(id: $id, submitterId: $submitterId, submitterName: $submitterName, submitterAvatarUrl: $submitterAvatarUrl, questId: $questId, questTitle: $questTitle, questPoints: $questPoints, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, votes: $votes, status: $status, submittedAt: $submittedAt, resolvedAt: $resolvedAt)';
+  return 'Proof(id: $id, submitterId: $submitterId, submitterName: $submitterName, submitterAvatarUrl: $submitterAvatarUrl, questId: $questId, questTitle: $questTitle, questPoints: $questPoints, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, votes: $votes, status: $status, submittedAt: $submittedAt, votingDeadline: $votingDeadline, resolvedAt: $resolvedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ProofCopyWith<$Res>  {
   factory $ProofCopyWith(Proof value, $Res Function(Proof) _then) = _$ProofCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(includeToJson: false) String id, String submitterId, String submitterName, String? submitterAvatarUrl, String questId, String questTitle, int questPoints, String imageUrl, String thumbnailUrl, Map<String, String> votes, ProofStatus status, DateTime submittedAt, DateTime? resolvedAt
+@JsonKey(includeToJson: false) String id, String submitterId, String submitterName, String? submitterAvatarUrl, String questId, String questTitle, int questPoints, String imageUrl, String thumbnailUrl, Map<String, String> votes, ProofStatus status, DateTime submittedAt, DateTime? votingDeadline, DateTime? resolvedAt
 });
 
 
@@ -65,7 +65,7 @@ class _$ProofCopyWithImpl<$Res>
 
 /// Create a copy of Proof
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? submitterId = null,Object? submitterName = null,Object? submitterAvatarUrl = freezed,Object? questId = null,Object? questTitle = null,Object? questPoints = null,Object? imageUrl = null,Object? thumbnailUrl = null,Object? votes = null,Object? status = null,Object? submittedAt = null,Object? resolvedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? submitterId = null,Object? submitterName = null,Object? submitterAvatarUrl = freezed,Object? questId = null,Object? questTitle = null,Object? questPoints = null,Object? imageUrl = null,Object? thumbnailUrl = null,Object? votes = null,Object? status = null,Object? submittedAt = null,Object? votingDeadline = freezed,Object? resolvedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,submitterId: null == submitterId ? _self.submitterId : submitterId // ignore: cast_nullable_to_non_nullable
@@ -79,7 +79,8 @@ as String,thumbnailUrl: null == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl
 as String,votes: null == votes ? _self.votes : votes // ignore: cast_nullable_to_non_nullable
 as Map<String, String>,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as ProofStatus,submittedAt: null == submittedAt ? _self.submittedAt : submittedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,resolvedAt: freezed == resolvedAt ? _self.resolvedAt : resolvedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,votingDeadline: freezed == votingDeadline ? _self.votingDeadline : votingDeadline // ignore: cast_nullable_to_non_nullable
+as DateTime?,resolvedAt: freezed == resolvedAt ? _self.resolvedAt : resolvedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
@@ -165,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  String submitterId,  String submitterName,  String? submitterAvatarUrl,  String questId,  String questTitle,  int questPoints,  String imageUrl,  String thumbnailUrl,  Map<String, String> votes,  ProofStatus status,  DateTime submittedAt,  DateTime? resolvedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  String submitterId,  String submitterName,  String? submitterAvatarUrl,  String questId,  String questTitle,  int questPoints,  String imageUrl,  String thumbnailUrl,  Map<String, String> votes,  ProofStatus status,  DateTime submittedAt,  DateTime? votingDeadline,  DateTime? resolvedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Proof() when $default != null:
-return $default(_that.id,_that.submitterId,_that.submitterName,_that.submitterAvatarUrl,_that.questId,_that.questTitle,_that.questPoints,_that.imageUrl,_that.thumbnailUrl,_that.votes,_that.status,_that.submittedAt,_that.resolvedAt);case _:
+return $default(_that.id,_that.submitterId,_that.submitterName,_that.submitterAvatarUrl,_that.questId,_that.questTitle,_that.questPoints,_that.imageUrl,_that.thumbnailUrl,_that.votes,_that.status,_that.submittedAt,_that.votingDeadline,_that.resolvedAt);case _:
   return orElse();
 
 }
@@ -186,10 +187,10 @@ return $default(_that.id,_that.submitterId,_that.submitterName,_that.submitterAv
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  String submitterId,  String submitterName,  String? submitterAvatarUrl,  String questId,  String questTitle,  int questPoints,  String imageUrl,  String thumbnailUrl,  Map<String, String> votes,  ProofStatus status,  DateTime submittedAt,  DateTime? resolvedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(includeToJson: false)  String id,  String submitterId,  String submitterName,  String? submitterAvatarUrl,  String questId,  String questTitle,  int questPoints,  String imageUrl,  String thumbnailUrl,  Map<String, String> votes,  ProofStatus status,  DateTime submittedAt,  DateTime? votingDeadline,  DateTime? resolvedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Proof():
-return $default(_that.id,_that.submitterId,_that.submitterName,_that.submitterAvatarUrl,_that.questId,_that.questTitle,_that.questPoints,_that.imageUrl,_that.thumbnailUrl,_that.votes,_that.status,_that.submittedAt,_that.resolvedAt);case _:
+return $default(_that.id,_that.submitterId,_that.submitterName,_that.submitterAvatarUrl,_that.questId,_that.questTitle,_that.questPoints,_that.imageUrl,_that.thumbnailUrl,_that.votes,_that.status,_that.submittedAt,_that.votingDeadline,_that.resolvedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +207,10 @@ return $default(_that.id,_that.submitterId,_that.submitterName,_that.submitterAv
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeToJson: false)  String id,  String submitterId,  String submitterName,  String? submitterAvatarUrl,  String questId,  String questTitle,  int questPoints,  String imageUrl,  String thumbnailUrl,  Map<String, String> votes,  ProofStatus status,  DateTime submittedAt,  DateTime? resolvedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(includeToJson: false)  String id,  String submitterId,  String submitterName,  String? submitterAvatarUrl,  String questId,  String questTitle,  int questPoints,  String imageUrl,  String thumbnailUrl,  Map<String, String> votes,  ProofStatus status,  DateTime submittedAt,  DateTime? votingDeadline,  DateTime? resolvedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Proof() when $default != null:
-return $default(_that.id,_that.submitterId,_that.submitterName,_that.submitterAvatarUrl,_that.questId,_that.questTitle,_that.questPoints,_that.imageUrl,_that.thumbnailUrl,_that.votes,_that.status,_that.submittedAt,_that.resolvedAt);case _:
+return $default(_that.id,_that.submitterId,_that.submitterName,_that.submitterAvatarUrl,_that.questId,_that.questTitle,_that.questPoints,_that.imageUrl,_that.thumbnailUrl,_that.votes,_that.status,_that.submittedAt,_that.votingDeadline,_that.resolvedAt);case _:
   return null;
 
 }
@@ -220,8 +221,8 @@ return $default(_that.id,_that.submitterId,_that.submitterName,_that.submitterAv
 /// @nodoc
 @JsonSerializable()
 
-class _Proof implements Proof {
-  const _Proof({@JsonKey(includeToJson: false) required this.id, required this.submitterId, required this.submitterName, this.submitterAvatarUrl, required this.questId, required this.questTitle, required this.questPoints, required this.imageUrl, required this.thumbnailUrl, final  Map<String, String> votes = const <String, String>{}, this.status = ProofStatus.pending, required this.submittedAt, this.resolvedAt}): _votes = votes;
+class _Proof extends Proof {
+  const _Proof({@JsonKey(includeToJson: false) required this.id, required this.submitterId, required this.submitterName, this.submitterAvatarUrl, required this.questId, required this.questTitle, required this.questPoints, required this.imageUrl, required this.thumbnailUrl, final  Map<String, String> votes = const <String, String>{}, this.status = ProofStatus.pending, required this.submittedAt, this.votingDeadline, this.resolvedAt}): _votes = votes,super._();
   factory _Proof.fromJson(Map<String, dynamic> json) => _$ProofFromJson(json);
 
 @override@JsonKey(includeToJson: false) final  String id;
@@ -242,6 +243,7 @@ class _Proof implements Proof {
 
 @override@JsonKey() final  ProofStatus status;
 @override final  DateTime submittedAt;
+@override final  DateTime? votingDeadline;
 @override final  DateTime? resolvedAt;
 
 /// Create a copy of Proof
@@ -257,16 +259,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Proof&&(identical(other.id, id) || other.id == id)&&(identical(other.submitterId, submitterId) || other.submitterId == submitterId)&&(identical(other.submitterName, submitterName) || other.submitterName == submitterName)&&(identical(other.submitterAvatarUrl, submitterAvatarUrl) || other.submitterAvatarUrl == submitterAvatarUrl)&&(identical(other.questId, questId) || other.questId == questId)&&(identical(other.questTitle, questTitle) || other.questTitle == questTitle)&&(identical(other.questPoints, questPoints) || other.questPoints == questPoints)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&const DeepCollectionEquality().equals(other._votes, _votes)&&(identical(other.status, status) || other.status == status)&&(identical(other.submittedAt, submittedAt) || other.submittedAt == submittedAt)&&(identical(other.resolvedAt, resolvedAt) || other.resolvedAt == resolvedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Proof&&(identical(other.id, id) || other.id == id)&&(identical(other.submitterId, submitterId) || other.submitterId == submitterId)&&(identical(other.submitterName, submitterName) || other.submitterName == submitterName)&&(identical(other.submitterAvatarUrl, submitterAvatarUrl) || other.submitterAvatarUrl == submitterAvatarUrl)&&(identical(other.questId, questId) || other.questId == questId)&&(identical(other.questTitle, questTitle) || other.questTitle == questTitle)&&(identical(other.questPoints, questPoints) || other.questPoints == questPoints)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&const DeepCollectionEquality().equals(other._votes, _votes)&&(identical(other.status, status) || other.status == status)&&(identical(other.submittedAt, submittedAt) || other.submittedAt == submittedAt)&&(identical(other.votingDeadline, votingDeadline) || other.votingDeadline == votingDeadline)&&(identical(other.resolvedAt, resolvedAt) || other.resolvedAt == resolvedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,submitterId,submitterName,submitterAvatarUrl,questId,questTitle,questPoints,imageUrl,thumbnailUrl,const DeepCollectionEquality().hash(_votes),status,submittedAt,resolvedAt);
+int get hashCode => Object.hash(runtimeType,id,submitterId,submitterName,submitterAvatarUrl,questId,questTitle,questPoints,imageUrl,thumbnailUrl,const DeepCollectionEquality().hash(_votes),status,submittedAt,votingDeadline,resolvedAt);
 
 @override
 String toString() {
-  return 'Proof(id: $id, submitterId: $submitterId, submitterName: $submitterName, submitterAvatarUrl: $submitterAvatarUrl, questId: $questId, questTitle: $questTitle, questPoints: $questPoints, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, votes: $votes, status: $status, submittedAt: $submittedAt, resolvedAt: $resolvedAt)';
+  return 'Proof(id: $id, submitterId: $submitterId, submitterName: $submitterName, submitterAvatarUrl: $submitterAvatarUrl, questId: $questId, questTitle: $questTitle, questPoints: $questPoints, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl, votes: $votes, status: $status, submittedAt: $submittedAt, votingDeadline: $votingDeadline, resolvedAt: $resolvedAt)';
 }
 
 
@@ -277,7 +279,7 @@ abstract mixin class _$ProofCopyWith<$Res> implements $ProofCopyWith<$Res> {
   factory _$ProofCopyWith(_Proof value, $Res Function(_Proof) _then) = __$ProofCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(includeToJson: false) String id, String submitterId, String submitterName, String? submitterAvatarUrl, String questId, String questTitle, int questPoints, String imageUrl, String thumbnailUrl, Map<String, String> votes, ProofStatus status, DateTime submittedAt, DateTime? resolvedAt
+@JsonKey(includeToJson: false) String id, String submitterId, String submitterName, String? submitterAvatarUrl, String questId, String questTitle, int questPoints, String imageUrl, String thumbnailUrl, Map<String, String> votes, ProofStatus status, DateTime submittedAt, DateTime? votingDeadline, DateTime? resolvedAt
 });
 
 
@@ -294,7 +296,7 @@ class __$ProofCopyWithImpl<$Res>
 
 /// Create a copy of Proof
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? submitterId = null,Object? submitterName = null,Object? submitterAvatarUrl = freezed,Object? questId = null,Object? questTitle = null,Object? questPoints = null,Object? imageUrl = null,Object? thumbnailUrl = null,Object? votes = null,Object? status = null,Object? submittedAt = null,Object? resolvedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? submitterId = null,Object? submitterName = null,Object? submitterAvatarUrl = freezed,Object? questId = null,Object? questTitle = null,Object? questPoints = null,Object? imageUrl = null,Object? thumbnailUrl = null,Object? votes = null,Object? status = null,Object? submittedAt = null,Object? votingDeadline = freezed,Object? resolvedAt = freezed,}) {
   return _then(_Proof(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,submitterId: null == submitterId ? _self.submitterId : submitterId // ignore: cast_nullable_to_non_nullable
@@ -308,7 +310,8 @@ as String,thumbnailUrl: null == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl
 as String,votes: null == votes ? _self._votes : votes // ignore: cast_nullable_to_non_nullable
 as Map<String, String>,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as ProofStatus,submittedAt: null == submittedAt ? _self.submittedAt : submittedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,resolvedAt: freezed == resolvedAt ? _self.resolvedAt : resolvedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,votingDeadline: freezed == votingDeadline ? _self.votingDeadline : votingDeadline // ignore: cast_nullable_to_non_nullable
+as DateTime?,resolvedAt: freezed == resolvedAt ? _self.resolvedAt : resolvedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }

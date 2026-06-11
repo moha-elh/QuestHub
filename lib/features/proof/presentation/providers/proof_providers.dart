@@ -26,3 +26,10 @@ final activeProofProvider = StreamProvider.family<Proof?, String>(
   (ref, roomId) =>
       ref.watch(proofRepositoryProvider).listenToActiveProof(roomId),
 );
+
+final proofByIdProvider =
+    StreamProvider.family<Proof, ({String roomId, String proofId})>(
+  (ref, params) => ref
+      .watch(proofRepositoryProvider)
+      .listenToProof(params.roomId, params.proofId),
+);

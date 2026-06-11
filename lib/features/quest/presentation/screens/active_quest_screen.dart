@@ -9,7 +9,13 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/qh_button.dart';
+import '../../../../features/chat/presentation/providers/chat_providers.dart';
+import '../../../../features/chat/presentation/widgets/chat_panel.dart';
+import '../../../../features/chat/presentation/widgets/chat_toggle_button.dart';
+import '../../../../features/scoreboard/presentation/widgets/live_scoreboard_sheet.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../room/domain/room.dart';
+import '../../../room/presentation/providers/room_providers.dart';
 import '../../domain/quest.dart';
 import '../providers/quest_providers.dart';
 import '../widgets/category_icon.dart';
@@ -32,6 +38,9 @@ class _ActiveQuestScreenState extends ConsumerState<ActiveQuestScreen> {
   int _totalSeconds = 0;
   bool _showExpiredOverlay = false;
   bool _timerStarted = false;
+  bool _isChatOpen = false;
+  int _unreadCount = 0;
+  int _lastMessageCount = 0;
 
   @override
   void dispose() {
@@ -111,10 +120,77 @@ class _ActiveQuestScreenState extends ConsumerState<ActiveQuestScreen> {
     if (mounted) context.go('/room/${widget.roomId}');
   }
 
+  void _openChat() {
+    setState(() {
+      _isChatOpen = true;
+      _unreadCount = 0;
+    });
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.45,
+        minChildSize: 0.3,
+        maxChildSize: 0.85,
+        builder: (context, scrollController) => ChatPanel(
+          roomId: widget.roomId,
+          scrollController: scrollController,
+          onClose: () => Navigator.of(ctx).pop(),
+        ),
+      ),
+    ).whenComplete(() {
+      if (mounted) setState(() => _isChatOpen = false);
+    });
+  }
+
+  void _openScoreboard() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.45,
+        minChildSize: 0.3,
+        maxChildSize: 0.85,
+        builder: (context, scrollController) => LiveScoreboardSheet(
+          roomId: widget.roomId,
+          scrollController: scrollController,
+          onClose: () => Navigator.of(ctx).pop(),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final questAsync = ref.watch(myQuestProvider(widget.roomId));
     final hasSkipped = ref.watch(hasSkippedInRoomProvider(widget.roomId));
+
+    // Navigate to post-game when finished
+    ref.listen(roomProvider(widget.roomId), (previous, next) {
+      next.when(
+        data: (room) {
+          if (room.status == RoomStatus.finished &&
+              previous?.asData?.value.status != RoomStatus.finished) {
+            context.go('/room/${widget.roomId}/results');
+          }
+        },
+        error: (_, _) {},
+        loading: () {},
+      );
+    });
+
+    // Track messages for unread count
+    ref.listen(messagesProvider(widget.roomId), (prev, next) {
+      next.whenData((messages) {
+        if (!_isChatOpen && messages.length > _lastMessageCount) {
+          final delta = messages.length - _lastMessageCount;
+          setState(() => _unreadCount += delta);
+        }
+        _lastMessageCount = messages.length;
+      });
+    });
 
     return Scaffold(
       body: SafeArea(
@@ -178,6 +254,28 @@ class _ActiveQuestScreenState extends ConsumerState<ActiveQuestScreen> {
             ),
             if (_showExpiredOverlay)
               const QuestExpiredOverlay(),
+            Positioned(
+              right: AppSpacing.md,
+              bottom: AppSpacing.md,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FloatingActionButton(
+                    heroTag: 'scoreboard',
+                    mini: true,
+                    backgroundColor: AppColors.warning,
+                    onPressed: _openScoreboard,
+                    child: const Icon(Icons.emoji_events,
+                        color: Colors.black, size: 20),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  ChatToggleButton(
+                    unreadCount: _unreadCount,
+                    onTap: _openChat,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
